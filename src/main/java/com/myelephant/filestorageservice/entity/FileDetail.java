@@ -1,5 +1,7 @@
 package com.myelephant.filestorageservice.entity;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileDetail {
+public class FileDetail implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;

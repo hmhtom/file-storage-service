@@ -1,5 +1,6 @@
 package com.myelephant.filestorageservice.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FolderDetail {
+public class FolderDetail implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     // MongoDB ID
     @Id
