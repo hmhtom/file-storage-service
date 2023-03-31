@@ -1,5 +1,7 @@
 package com.myelephant.filestorageservice.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +24,7 @@ public class FileController {
     private final FileDetailService fileDetailService;
 
     @PostMapping("/{folderId}")
+    @CachePut(value = "file", key = "#fileDetail.id")
     public ResponseEntity<?> addFileToFolder(@RequestBody FileDetail fileDetail, @PathVariable String folderId) {
 
         try {
@@ -34,6 +37,7 @@ public class FileController {
     }
 
     @DeleteMapping("/{fileId}")
+    @CacheEvict(value = "file", key = "#fileId")
     public ResponseEntity<?> deleteFile(@PathVariable String fileId) {
         try {
             fileDetailService.deleteFile(fileId);
