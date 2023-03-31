@@ -2,6 +2,9 @@ package com.myelephant.filestorageservice.service;
 
 import java.util.Collections;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.myelephant.filestorageservice.entity.FolderDetail;
@@ -15,10 +18,12 @@ public class FolderDetailService {
 
     private final FolderDetailRepository folderDetailRepository;
 
+    @CachePut(value = "folder", key = "#folderDetail.id")
     public FolderDetail createInitialFolder(FolderDetail folderDetail) {
         return folderDetailRepository.save(folderDetail);
     }
 
+    @CachePut(value = "folder", key = "#folderDetail.id")
     public FolderDetail addFolder(FolderDetail folderDetail, String folderId) {
 
         // Get the parent folder
@@ -38,6 +43,7 @@ public class FolderDetailService {
 
     }
 
+    @Cacheable(value = "folder", key = "#folderId")
     public FolderDetail getFolderById(String folderId) {
         // Get folder
         FolderDetail folder = folderDetailRepository
@@ -52,6 +58,7 @@ public class FolderDetailService {
         return folderDetailRepository.save(folder);
     }
 
+    @CachePut(value = "folder", key = "#folderDetail.id")
     public FolderDetail updateFolderName(FolderDetail folderDetail, String folderId) {
 
         FolderDetail folder = folderDetailRepository
@@ -63,6 +70,7 @@ public class FolderDetailService {
         return folderDetailRepository.save(folder);
     }
 
+    @CacheEvict(value = "folder", key = "#folderId")
     public void deleteFolderById(String folderId) {
         folderDetailRepository.deleteById(folderId);
     }

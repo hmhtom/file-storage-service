@@ -24,7 +24,6 @@ public class FileController {
     private final FileDetailService fileDetailService;
 
     @PostMapping("/{folderId}")
-    @CachePut(value = "file", key = "#fileDetail.id")
     public ResponseEntity<?> addFileToFolder(@RequestBody FileDetail fileDetail, @PathVariable String folderId) {
 
         try {
@@ -37,7 +36,6 @@ public class FileController {
     }
 
     @DeleteMapping("/{fileId}")
-    @CacheEvict(value = "file", key = "#fileId")
     public ResponseEntity<?> deleteFile(@PathVariable String fileId) {
         try {
             fileDetailService.deleteFile(fileId);

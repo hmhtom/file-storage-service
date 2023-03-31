@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -29,13 +26,11 @@ public class FolderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CachePut(value = "folder", key = "#folderDetail.id")
     public FolderDetail createInitialFolder(@RequestBody FolderDetail folderDetail) {
         return folderDetailService.createInitialFolder(folderDetail);
     }
 
     @PostMapping("/{folderId}")
-    @CachePut(value = "folder", key = "#folderDetail.id")
     public ResponseEntity<?> addFolder(@RequestBody FolderDetail folderDetail, @PathVariable String folderId) {
         try {
             return new ResponseEntity<FolderDetail>(folderDetailService.addFolder(folderDetail, folderId),
@@ -47,7 +42,6 @@ public class FolderController {
     }
 
     @GetMapping("/{folderId}")
-    @Cacheable(value = "folder", key = "#folderId")
     public ResponseEntity<?> getAllFolders(@PathVariable String folderId) {
         try {
             return new ResponseEntity<FolderDetail>(folderDetailService.getFolderById(folderId), HttpStatus.OK);
@@ -58,7 +52,6 @@ public class FolderController {
     }
 
     @PutMapping("/{folderId}")
-    @CachePut(value = "folder", key = "#folderDetail.id")
     public ResponseEntity<?> updateFolderName(@RequestBody FolderDetail folderDetail, @PathVariable String folderId) {
         try {
             return new ResponseEntity<FolderDetail>(folderDetailService.updateFolderName(folderDetail, folderId),
@@ -70,7 +63,6 @@ public class FolderController {
     }
 
     @DeleteMapping("/{folderId}")
-    @CacheEvict(value = "folder", key = "#folderId")
     public ResponseEntity<?> deleteFolderById(@PathVariable String folderId) {
         try {
             folderDetailService.deleteFolderById(folderId);
